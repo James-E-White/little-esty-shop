@@ -154,9 +154,9 @@ RSpec.describe 'Merchants Dashboard Page' do
          visit "/merchants/#{@merchant1.id}/dashboard"
 
          expect(page).to have_link("#{@merchant1.name}'s Discounts")
-         save_and_open_page
          click_link "#{@merchant1.name}'s Discounts"
          expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+         save_and_open_page
       end
     end
   end
