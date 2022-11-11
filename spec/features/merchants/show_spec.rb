@@ -141,6 +141,23 @@ RSpec.describe 'Merchants Dashboard Page' do
           expect("#{@invoice5.id}").to appear_before("#{@invoice6.id}")
         end
       end
+# 1: Merchant Bulk Discounts Index
+# As a merchant
+# When I visit my merchant dashboard
+# Then I see a link to view all my discounts
+# When I click this link
+# Then I am taken to my bulk discounts index page
+# Where I see all of my bulk discounts including their
+# percentage discount and quantity thresholds
+# And each bulk discount listed includes a link to its show page
+      it 'Then I see a link to view all my discounts, When I click this link, Then I am taken to my bulk discounts index page' do
+         visit "/merchants/#{@merchant1.id}/dashboard"
+
+         expect(page).to have_link("#{@merchant1.name}'s Discounts")
+         save_and_open_page
+         click_link "#{@merchant1.name}'s Discounts"
+         expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+      end
     end
   end
 end
