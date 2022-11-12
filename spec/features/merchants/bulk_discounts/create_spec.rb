@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchants bulk index page' do
+RSpec.describe 'Create new Merchants bulk discount page' do
   before :each do
     @merchant_1 = Merchant.create!(name: 'Marvel', status: 'enabled')
     @merchant_2 = Merchant.create!(name: 'D.C.', status: 'disabled')
@@ -125,30 +125,54 @@ RSpec.describe 'Merchants bulk index page' do
                                          result: 'success', invoice_id: @invoice11.id)
   end
 
-  # 1: Merchant Bulk Discounts Index
+  # 2: Merchant Bulk Discount Create
   # As a merchant
-  # When I visit my merchant dashboard
-  # Then I see a link to view all my discounts
+  # When I visit my bulk discounts index
+  # Then I see a link to create a new discount
   # When I click this link
-  # Then I am taken to my bulk discounts index page
-  # Where I see all of my bulk discounts including their
-  # percentage discount and quantity thresholds
-  # And each bulk discount listed includes a link to its show page
-  it 'Then I see a link to view all my discounts, When I click this link, Then I am taken to my bulk discounts index page' do
-    visit "/merchants/#{@merchant_1.id}/dashboard"
+  # Then I am taken to a new page where I see a form to add a new bulk discount
+  # When I fill in the form with valid data
+  # Then I am redirected back to the bulk discount index
+  # And I see my new bulk discount listed
 
-    expect(page).to have_link("#{@merchant_1.name}'s Discounts")
-    click_link "#{@merchant_1.name}'s Discounts"
-    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
+  describe 'Bulk discount create ' do
+    it 'Has a link to a form to create a new discount when I click on it I am redirected to a form to add new discount' do
+      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
 
-    expect(page).to have_content("#{@merchant_1.name}'s Discounts")
+      expect(page).to have_link('Create New Discount')
 
-    # save_and_open_page
+      click_link 'Create New Discount'
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
+      fill_in :quantity_threshold, with: ''
+      fill_in :percent_discount, with: ''
+
+      expect(page)
+      fill_in :quantity_threshold, with: '50'
+      fill_in :percent_discount, with: '25'
+
+      click_on 'Create Discount'
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
+
+      
+    end
   end
-
-  it 'has a link to each discount show page' do
-    visit "/merchants/#{@merchant_1.id}/bulk_discounts"
-    expect(page).to have_link("#{@discount_1.id}")
-    expect(page).to have_link("#{@discount_2.id}")
-  end
+  
+  it 'testsad path testing' do 
+    visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+    
+    expect(page).to have_link('Create New Discount')
+    
+    click_link 'Create New Discount'
+    
+    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
+    fill_in :quantity_threshold, with: ''
+    fill_in :percent_discount, with: ''
+    
+    click_on 'Create Discount'
+    
+    expect(page).to have_content('Please enter a valid discount')
+    save_and_open_page
+    end
 end
