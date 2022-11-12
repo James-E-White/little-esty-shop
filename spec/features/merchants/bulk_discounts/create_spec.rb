@@ -125,7 +125,6 @@ RSpec.describe 'Create new Merchants bulk discount page' do
                                          result: 'success', invoice_id: @invoice11.id)
   end
 
-
   # 2: Merchant Bulk Discount Create
   # As a merchant
   # When I visit my bulk discounts index
@@ -137,14 +136,43 @@ RSpec.describe 'Create new Merchants bulk discount page' do
   # And I see my new bulk discount listed
 
   describe 'Bulk discount create ' do
-    it 'Has a link to a form to create a new discount when I click on it I am redirected to a for to add new discount' do
-    visit "/merchants/#{@merchant_1.id}/bulk_discounts"
-    
-    expect(page).to have_link("Create New Discount")
-    
-    click_link "Create New Discount"
-    
-    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/create")
+    it 'Has a link to a form to create a new discount when I click on it I am redirected to a form to add new discount' do
+      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+
+      expect(page).to have_link('Create New Discount')
+
+      click_link 'Create New Discount'
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
+      fill_in :quantity_threshold, with: ''
+      fill_in :percent_discount, with: ''
+
+      expect(page)
+      fill_in :quantity_threshold, with: '50'
+      fill_in :percent_discount, with: '25'
+
+      click_on 'Create Discount'
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
+
+      
     end
   end
+  
+  it 'testsad path testing' do 
+    visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+    
+    expect(page).to have_link('Create New Discount')
+    
+    click_link 'Create New Discount'
+    
+    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
+    fill_in :quantity_threshold, with: ''
+    fill_in :percent_discount, with: ''
+    
+    click_on 'Create Discount'
+    
+    expect(page).to have_content('Please enter a valid discount')
+    save_and_open_page
+    end
 end

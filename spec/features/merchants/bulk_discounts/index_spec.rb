@@ -134,7 +134,7 @@ RSpec.describe 'Merchants bulk index page' do
   # Where I see all of my bulk discounts including their
   # percentage discount and quantity thresholds
   # And each bulk discount listed includes a link to its show page
-   it 'Then I see a link to view all my discounts, When I click this link, Then I am taken to my bulk discounts index page' do
+  it 'Then I see a link to view all my discounts, When I click this link, Then I am taken to my bulk discounts index page' do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     expect(page).to have_link("#{@merchant_1.name}'s Discounts")
@@ -146,10 +146,9 @@ RSpec.describe 'Merchants bulk index page' do
     # save_and_open_page
   end
 
-   it 'has a link to each discount show page' do
+  it 'has a link to each discount show page' do
     visit "/merchants/#{@merchant_1.id}/bulk_discounts"
     expect(page).to have_link("#{@discount_1.id}")
     expect(page).to have_link("#{@discount_2.id}")
-    
   end
 end
