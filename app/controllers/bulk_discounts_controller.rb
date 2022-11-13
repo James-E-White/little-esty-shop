@@ -4,14 +4,16 @@ class BulkDiscountsController < ApplicationController
   end
 
   def show
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = BulkDiscount.find(params[:discount_id])
     # @merchant = Merchant.find(params[:merchant_id])
-    @bulk_discount = BulkDiscount.find(params[:id])
+    
+    #@bulk_discount = @merchant.bulk_discounts.find(params[:id])
   end
 
   def new
-    # bulk_discount.save
+    @bulk_discount = BulkDiscount.new
     @merchant = Merchant.find(params[:merchant_id])
-    @bulk_discount = @merchant.bulk_discounts.new
   end
 
   def create
@@ -23,6 +25,30 @@ class BulkDiscountsController < ApplicationController
     else
       redirect_to "/merchants/#{@merchant.id}/dashboard/bulk_discounts/new"
       flash[:alert] = 'Please enter a valid discount'
+    end
+  end
+
+  def destroy
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:discount_id])
+    @bulk_discount.destroy
+    redirect_to "/merchants/#{@merchant.id}/dashboard/bulk_discounts"
+  end
+
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:discount_id])
+  end
+
+    def update
+      
+     @merchant = Merchant.find(params[:merchant_id])
+     @bulk_discount = @merchant.bulk_discounts.find(params[:discount_id]) 
+     if @bulk_discount.update(bulk_discount_params)
+     redirect_to "/merchants/#{@merchant.id}/dashboard/bulk_discounts/#{@bulk_discount.id}"
+     else
+      flash[:alert] = "Please enter a valid discount # and quantity threshold #"
+      redirect_to "/merchants/#{@merchant.id}/dashboard/bulk_discounts/#{@bulk_discount.id}/edit"
     end
   end
 
