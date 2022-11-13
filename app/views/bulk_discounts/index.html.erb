@@ -5,7 +5,7 @@
  <p>Discount #: <%= link_to "#{discount.id}", "/merchants/#{@merchant.id}/dashboard/bulk_discounts/#{discount.id}" %></p>
   <li><p>Percent_discount: <%=discount.percent_discount %></p></li>
   <li><p>Quantity_threshold: <%=discount.quantity_threshold %></p></li>
-  <li><p><%= button_to "Delete Discount #: #{discount.id}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete, remote: true %></li></p>
+  <li><p><%= button_to "Delete Discount #: #{discount.id}", "/merchants/#{@merchant.id}/dashboard/bulk_discounts/#{discount.id}", method: :delete, remote: true %></li></p>
   </ol> 
 </div>
 <% end %>

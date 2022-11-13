@@ -18,34 +18,15 @@ RSpec.describe 'Merchants bulk_discount show page' do
   # Then I see the bulk discount's quantity threshold and percentage discount
   describe 'bulk_discount show' do
     it 'I see the percent_discount and quantity_threshold' do
-      visit "/merchants/#{@merchant_1.id}/bulk_discounts/#{@discount_1.id}"
+    
+      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}"
       # save_and_open_page
-
+      #within block
       expect(page).to have_content("#{@discount_1.percent_discount}")
       expect(page).to have_content("#{@discount_1.quantity_threshold}")
-      expect(page).to_not have_content("#{@discount_2.percent_discount}")
-      expect(page).to_not have_content("#{@discount_2.quantity_threshold}")
-      save_and_open_page
-    end
-  end
-  # 5: Merchant Bulk Discount Edit
-  # As a merchant
-  # When I visit my bulk discount show page
-  # Then I see a link to edit the bulk discount
-  # When I click this link
-  # Then I am taken to a new page with a form to edit the discount
-  # And I see that the discounts current attributes are pre-poluated in the form
-  # When I change any/all of the information and click submit
-  # Then I am redirected to the bulk discount's show page
-  # And I see that the discount's attributes have been updated
-  describe 'adding an edit link to a bulk discount' do
-    describe 'editing the discounts to show updated info' do
-      it 'has a link to edit the discounts information' do
-      visit "/merchants/#{@merchant_1.id}/bulk_discounts/#{@discount_1.id}"
-       
-      expect(page).
-
-      end
+      #expect(page).to_not have_content("#{@discount_2.percent_discount}")
+      #expect(page).to_not have_content("#{@discount_2.quantity_threshold}")
+      #save_and_open_page
     end
   end
 end
