@@ -29,4 +29,14 @@ RSpec.describe 'Merchants bulk_discount show page' do
       #save_and_open_page
     end
   end
+
+
+# As a merchant
+# When I visit my merchant invoice show page
+# Then I see the total revenue for my merchant from this invoice (not including discounts)
+# And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation
+  describe 'as a merchant, when I visit my invoice show page I see revenue information ' do 
+   
+  end
+
 end
