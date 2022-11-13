@@ -28,30 +28,38 @@ RSpec.describe 'Merchants bulk_discount show page' do
     describe 'editing the discounts to show updated info' do
       it 'has a link to edit the discounts information' do
         visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}"
-        
-        expect(page).to have_link('Edit Discount')
-        
-        click_link 'Edit Discount'
 
+        expect(page).to have_link('Edit Discount')
+
+        click_link 'Edit Discount'
       end
     end
   end
-     describe 'form_with fields' do 
-        it 'will display the form with existing discount attributes' do
-         visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}/edit"
-          #expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}/edit")
-          
-         
-          fill_in :percent_discount, with: 22
-          fill_in :quantity_threshold, with: 18
-          
-          click_on "Update"
-          
-          expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}")
-          
-          expect(page).to have_content(:Percent_Discount=>22)
-          
-         save_and_open_page
-        end
+  describe 'form_with fields' do
+    it 'will display the form with existing discount attributes' do
+      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}/edit"
+
+      fill_in :percent_discount, with: 22
+      fill_in :quantity_threshold, with: 20
+      click_on 'Update'
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}")
+
+      expect(page).to have_content('Percent Discount: 22')
+      expect(page).to_not have_content('Percent Discount: 15')
     end
+  end
+
+   describe 'sad path testing' do 
+    it 'redirects the user back to the dit page and gives error message' do 
+     visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}/edit"
+
+      fill_in :percent_discount, with: ''
+      fill_in :quantity_threshold, with: ''
+      click_on 'Update'
+      
+       save_and_open_page
+      expect(page).to have_content("Please enter a valid discount # and quantity threshold #")
+    end
+   end
 end
