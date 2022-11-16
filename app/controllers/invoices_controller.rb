@@ -3,11 +3,15 @@ class InvoicesController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     @invoices = @merchant.invoices
   end
-
+  
   def show
+    
     @merchant = Merchant.find(params[:merchant_id])
     @invoice = @merchant.invoices.find(params[:id])
     @items = @invoice.items
+    @total_revenue = @invoice.total_revenue(@merchant)
+    @revenue_with_discount = @invoice.revenue_with_discount(@merchant)
+
   end
 
   def update

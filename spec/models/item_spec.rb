@@ -40,5 +40,11 @@ RSpec.describe Item, type: :model do
         expect(@item1.top_item_selling_date).to eq('2009-10-06 01:59:45')
       end
     end
+    
+    describe '#unit_price_dollars' do
+      it 'converts unit price to dollars' do
+        expect(@item1.unit_price_dollars).to eq(1.00)
+      end
+    end
   end
 end

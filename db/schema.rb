@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_11_031558) do
+ActiveRecord::Schema.define(version: 2022_11_16_101128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "bulk_discounts", force: :cascade do |t|
-    t.integer "percent_discount"
+    t.float "percent_discount"
     t.integer "quantity_threshold"
     t.bigint "merchant_id"
     t.datetime "created_at", null: false
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 2022_11_11_031558) do
     t.integer "quantity"
     t.integer "unit_price"
     t.integer "status", default: 0
-    t.bigint "item_id"
-    t.bigint "invoice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "item_id"
+    t.bigint "invoice_id"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
     t.index ["item_id"], name: "index_invoice_items_on_item_id"
   end

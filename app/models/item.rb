@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
+  has_many :bulk_discounts, through: :merchants
 
   validates_presence_of :name, :description, :unit_price, :merchant_id
   validates_numericality_of :unit_price, greater_than: 0
@@ -18,5 +19,9 @@ class Item < ApplicationRecord
       .order('top_revenue desc', 'invoices.created_at desc')
       .first
       .created_at
+  end
+
+  def unit_price_dollars
+    (unit_price / 100.00).round(2)
   end
 end

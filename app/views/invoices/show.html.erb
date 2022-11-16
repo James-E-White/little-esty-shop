@@ -7,9 +7,12 @@
 <% @items.each do |item| %>
   <div id="item-<%= item.id %>">
     <p><b>Name: </b><%= item.name %></p>
-    <p><b>Price: </b><%= "#{item.unit_price}¢" %></p>
+    <p><b>Price: </b><%= "#{item.unit_price_dollars}" %></p>
     <p><b>Quantity: </b><%= item.invoice_items.first.quantity %></p>
     <p><b>Status: </b><%= item.invoice_items.first.status %><br> 
+    <% if @total_revenue != @revenue_with_discount%>
+    <p><%= link_to "Discount Applied", "/merchants/#{@merchant.id}/dashboard/bulk_discounts/#{@invoice.find_discount_id(@merchant)}" %>
+    <% end %>
     <%= form_with url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
     <%= f.hidden_field :invoice_item_id, value: item.invoice_items.first.id %>
     <%= f.label :status %><br>
@@ -21,5 +24,6 @@
 <br>
 
 <div id="total_invoice_revenue">
-  <p><b>Total Invoice Revenue: </b><%= "#{@invoice.total_revenue}¢"%>
+  <p><b>Total Invoice Revenue: </b><%= @total_revenue %>
+  <p><b>Total Invoice Revenue with Discounts: </b>
 </div>

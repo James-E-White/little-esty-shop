@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Create new Merchants bulk discount page' do
+RSpec.describe 'Merchants bulk index page' do
   before :each do
     @merchant_1 = Merchant.create!(name: 'Marvel', status: 'enabled')
     @merchant_2 = Merchant.create!(name: 'D.C.', status: 'disabled')
@@ -125,58 +125,51 @@ RSpec.describe 'Create new Merchants bulk discount page' do
                                          result: 'success', invoice_id: @invoice11.id)
   end
 
-  # 2: Merchant Bulk Discount Create
+  # 1: Merchant Bulk Discounts Index
   # As a merchant
-  # When I visit my bulk discounts index
-  # Then I see a link to create a new discount
+  # When I visit my merchant dashboard
+  # Then I see a link to view all my discounts
   # When I click this link
-  # Then I am taken to a new page where I see a form to add a new bulk discount
-  # When I fill in the form with valid data
-  # Then I am redirected back to the bulk discount index
-  # And I see my new bulk discount listed
+  # Then I am taken to my bulk discounts index page
+  # Where I see all of my bulk discounts including their
+  # percentage discount and quantity thresholds
+  # And each bulk discount listed includes a link to its show page
+  it 'Then I see a link to view all my discounts, When I click this link, Then I am taken to my bulk discounts index page' do
+    visit "/merchants/#{@merchant_1.id}/dashboard"
 
-  describe 'Bulk discount create ' do
-    it 'Has a link to a form to create a new discount when I click on it I am redirected to a form to add new discount' do
-      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+    expect(page).to have_link("#{@merchant_1.name}'s Discounts")
+    click_link "#{@merchant_1.name}'s Discounts"
+    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
 
-      expect(page).to have_link('Create New Discount')
+    expect(page).to have_content("#{@merchant_1.name}'s Discounts")
 
-      click_link 'Create New Discount'
-
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
-      
-      fill_in :quantity_threshold, with: '50'
-      fill_in :percent_discount, with: '25'
-      
-      click_on 'Create New Discount'
-      
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
-     # save_and_open_page
-      #within("#{@merchant_1.id}") do
-      expect(page).to have_content("#{@discount_1.percent_discount}")
-      expect(page).to have_content("#{@discount_1.quantity_threshold}")
-      #end
-
-      #save_and_open_page
-
-      
-    end
+    #save_and_open_page
   end
-  
-  it 'tests sad path testing' do 
+
+  it 'has a link to each discount show page' do
     visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+    expect(page).to have_link("#{@discount_1.id}")
+    expect(page).to have_link("#{@discount_2.id}")
     
-    expect(page).to have_link('Create New Discount')
+  end
 
-    click_link 'Create New Discount'
+  it 'has a button to delete discount' do 
+    visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts"
+    expect(page).to have_button("Delete Discount #")
+    
+    expect(page).to have_button("Delete Discount #: #{@discount_1.id}")
+    expect(page).to have_button("Delete Discount #: #{@discount_2.id}")
+    
+    click_on "Delete Discount #: #{@discount_1.id}"
 
-    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/new")
-    fill_in :quantity_threshold, with: ''
-    fill_in :percent_discount, with: ''
-    
-    click_on 'Create New Discount'
-    
-    expect(page).to have_content('Please enter a valid discount')
-    
-    end
+    expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
+    #save_and_open_page
+  
+    expect(page).to_not have_content("Percent_discount: #{@discount_1.percent_discount}")
+    expect(page).to_not have_content("Quantity_threshold: #{@discount_1.quantity_threshold}")
+    expect(page).to have_content("Percent_discount: #{@discount_2.percent_discount}")
+    expect(page).to have_content("Quantity_threshold: #{@discount_2.quantity_threshold}")
+
+
+  end
 end
