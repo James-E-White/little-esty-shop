@@ -58,7 +58,7 @@ RSpec.describe 'Merchants bulk_discount show page' do
       fill_in :quantity_threshold, with: ''
       click_on 'Update'
       
-       save_and_open_page
+    
       expect(page).to have_content("Please enter a valid discount # and quantity threshold #")
     end
    end
