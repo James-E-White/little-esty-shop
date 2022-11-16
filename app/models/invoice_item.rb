@@ -14,7 +14,7 @@ class InvoiceItem < ApplicationRecord
       .where("merchant_id = #{merchant}")
       .sum("invoice_items.unit_price * quantity")
   end
-
+     #moved into the invoice
 #   def self.discount_list(merchant_id)
 #     Discount.joins(:invoice_item)
 #     binding.pry

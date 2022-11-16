@@ -51,7 +51,7 @@ RSpec.describe 'Merchants bulk_discount show page' do
   end
 
    describe 'sad path testing' do 
-    it 'redirects the user back to the dit page and gives error message' do 
+    it 'redirects the user back to the edit page and gives error message' do 
      visit "/merchants/#{@merchant_1.id}/dashboard/bulk_discounts/#{@discount_1.id}/edit"
 
       fill_in :percent_discount, with: ''

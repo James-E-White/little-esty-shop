@@ -13,10 +13,16 @@ class Invoice < ApplicationRecord
     invoice_items.sum('unit_price * quantity') #/100.00).round(2)
   end
   
+  # def discounted_all_revenue
+  #   binding.pry
+  #   #invoice_items.joins(item: {merchant: :bulk_discounts}).where("invoice_items.quantity >= bulk_discounts.quantity_threshold").sum('invoice_items.quantity * invoice_items.unit_price * (bulk_discounts.percent_discount / 100)')
+  # end
+  
+  
   def total_revenue(merchant)
     invoice_items
     .joins(item: :merchant)
-    .where("items.merchant_id = #{merchant.id}")
+    .where("items.merchant_id = ?", merchant.id)
     .sum('invoice_items.unit_price * invoice_items.quantity')
   end
 
@@ -36,5 +42,11 @@ class Invoice < ApplicationRecord
   def revenue_with_discount(merchant)
    total_revenue(merchant) - merchant_invoice_items_discount(merchant)
   end
-
+   
+  def find_discount_id(merchant)
+    invoice_items.joins(item: {merchant: :bulk_discounts})
+    .where("invoice_items.quantity >= bulk_discounts.quantity_threshold AND items.merchant_id = #{merchant.id}")
+    .select("invoice_items.*, bulk_discounts.id AS bulk_discount_id_search").first.bulk_discount_id_search
+  end
 end
+  

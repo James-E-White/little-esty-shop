@@ -26,10 +26,9 @@
     </div>
 <% end %>
 <br>
-<h2>Total Revenue of All Items: <%= @invoice.all_revenue %></h2>
 
 
 <div id="total_invoice_revenue">
-  <p><b>Total Invoice Revenue: </b><%= @invoice.total_revenue(@merchant) %>
-  <p><b>Total Invoice Revenue with Discounts: </b><%= @invoice.revenue_with_discount(@merchant) %>
+  <p><b>Total Invoice Revenue: </b><%= @total_revenue %>
+  <p><b>Total Invoice Revenue with Discounts: </b><%= @revenue_with_discount %>
 </div>

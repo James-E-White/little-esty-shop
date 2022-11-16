@@ -163,12 +163,13 @@ RSpec.describe 'Merchants bulk index page' do
     click_on "Delete Discount #: #{@discount_1.id}"
 
     expect(current_path).to eq("/merchants/#{@merchant_1.id}/dashboard/bulk_discounts")
-    #within block
-    expect(page).to_not have_content("#{@discount_1.percent_discount}")
-    expect(page).to_not have_content("#{@discount_1.quantity_threshold}")
-    expect(page).to have_content("#{@discount_2.percent_discount}")
-    expect(page).to have_content("#{@discount_2.quantity_threshold}")
     #save_and_open_page
+  
+    expect(page).to_not have_content("Percent_discount: #{@discount_1.percent_discount}")
+    expect(page).to_not have_content("Quantity_threshold: #{@discount_1.quantity_threshold}")
+    expect(page).to have_content("Percent_discount: #{@discount_2.percent_discount}")
+    expect(page).to have_content("Quantity_threshold: #{@discount_2.quantity_threshold}")
+
 
   end
 end

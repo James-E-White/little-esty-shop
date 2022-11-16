@@ -4,9 +4,7 @@ class CreateInvoiceItems < ActiveRecord::Migration[5.2]
       t.integer :quantity
       t.integer :unit_price
       t.integer :status, default: 0
-      t.references :item, foreign_key: true
-      t.references :invoice, foreign_key: true
-      t.references :bulk_discount, foreign_key: true
+
       t.timestamps
     end
   end

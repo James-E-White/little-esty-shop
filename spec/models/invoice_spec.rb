@@ -144,11 +144,10 @@ RSpec.describe Invoice, type: :model do
 
     
     describe '#revenue_with_discount' do
-     it 'returns the total revenue for a merchant with discounts applied' do
+      it 'returns the total revenue for a merchant with discounts applied' do
         expect(@invoice1.revenue_with_discount(@merchant_1)).to eq(2125.0)
       end
     end
-
   end  
 end
   
